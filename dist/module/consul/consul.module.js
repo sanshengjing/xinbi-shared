@@ -14,25 +14,26 @@ const service_discovery_1 = require("./service-discovery");
 const health_controller_1 = require("./health.controller");
 let ConsulModule = ConsulModule_1 = class ConsulModule {
     static forRootAsync(options) {
+        const optionsProvider = {
+            provide: 'CONSUL_MODULE_OPTIONS',
+            useFactory: options.useFactory,
+            inject: options.inject || [],
+        };
+        const consulServiceProvider = {
+            provide: consul_service_1.ConsulService,
+            useFactory: (config) => {
+                return new consul_service_1.ConsulService(config);
+            },
+            inject: ['CONSUL_MODULE_OPTIONS'],
+        };
         return {
             module: ConsulModule_1,
+            global: true,
             imports: [...(options.imports || [])],
             controllers: [health_controller_1.HealthController],
             providers: [
-                {
-                    provide: 'CONSUL_MODULE_OPTIONS',
-                    useFactory: async (...args) => {
-                        return await options.useFactory(...args);
-                    },
-                    inject: options.inject || [],
-                },
-                {
-                    provide: consul_service_1.ConsulService,
-                    useFactory: (config) => {
-                        return new consul_service_1.ConsulService(config);
-                    },
-                    inject: ['CONSUL_MODULE_OPTIONS'],
-                },
+                optionsProvider,
+                consulServiceProvider,
                 service_discovery_1.ServiceDiscovery,
             ],
             exports: [consul_service_1.ConsulService, service_discovery_1.ServiceDiscovery],

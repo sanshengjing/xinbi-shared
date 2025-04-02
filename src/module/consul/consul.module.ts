@@ -27,25 +27,28 @@ export interface ConsulModuleAsyncOptions
 })
 export class ConsulModule {
   static forRootAsync(options: ConsulModuleAsyncOptions): DynamicModule {
+    const optionsProvider = {
+      provide: 'CONSUL_MODULE_OPTIONS',
+      useFactory: options.useFactory,
+      inject: options.inject || [],
+    };
+
+    const consulServiceProvider = {
+      provide: ConsulService,
+      useFactory: (config: ConsulModuleOptions) => {
+        return new ConsulService(config);
+      },
+      inject: ['CONSUL_MODULE_OPTIONS'],
+    };
+
     return {
       module: ConsulModule,
+      global: true,
       imports: [...(options.imports || [])],
       controllers: [HealthController],
       providers: [
-        {
-          provide: 'CONSUL_MODULE_OPTIONS',
-          useFactory: async (...args: any[]) => {
-            return await options.useFactory(...args);
-          },
-          inject: options.inject || [],
-        },
-        {
-          provide: ConsulService,
-          useFactory: (config: ConsulModuleOptions) => {
-            return new ConsulService(config);
-          },
-          inject: ['CONSUL_MODULE_OPTIONS'],
-        },
+        optionsProvider,
+        consulServiceProvider,
         ServiceDiscovery,
       ],
       exports: [ConsulService, ServiceDiscovery],
