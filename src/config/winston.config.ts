@@ -1,6 +1,6 @@
 import chalk from 'chalk'; // 用于颜色化输出
 import { createLogger, format, transports, Logger } from 'winston';
-import * as DailyRotateFile from 'winston-daily-rotate-file';
+import DailyRotateFile from 'winston-daily-rotate-file';
 
 // 定义日志级别颜色
 const levelsColors = {

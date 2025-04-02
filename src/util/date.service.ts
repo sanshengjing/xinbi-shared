@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import * as dayjs from 'dayjs';
-import * as weekOfYear from 'dayjs/plugin/weekOfYear';
-import * as utc from 'dayjs/plugin/utc';
-import * as timezone from 'dayjs/plugin/timezone';
+import dayjs from 'dayjs';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(weekOfYear);
 dayjs.extend(utc);
