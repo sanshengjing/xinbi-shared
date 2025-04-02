@@ -1,25 +1,29 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { ConsulModule } from '../consul/consul.module';
-import { MICROSERVICE_TOKEN_PREFIX, MicroserviceFactory } from '../../decorators/inject-microservice.decorator';
+import { DynamicModule, Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
-@Module({
-  imports: [ConsulModule],
-})
+@Global()
+@Module({})
 export class MicroserviceModule {
-  static forRoot(services: string[]): DynamicModule {
-    const providers: Provider[] = services.map((serviceName) => ({
-      provide: `${MICROSERVICE_TOKEN_PREFIX}${serviceName}`,
-      useFactory: async (moduleRef) => {
-        return MicroserviceFactory.createAsyncClient(serviceName, moduleRef);
-      },
-      inject: ['MODULE_REF'],
-    }));
-
+  static forRoot(): DynamicModule {
     return {
       module: MicroserviceModule,
-      providers,
-      exports: providers,
-      global: true,
+      imports: [
+        ClientsModule.registerAsync([
+          {
+            name: 'prize-draw',
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+              transport: Transport.NATS,
+              options: {
+                servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
+              },
+            }),
+            inject: [ConfigService],
+          },
+        ]),
+      ],
+      exports: [ClientsModule],
     };
   }
 } 

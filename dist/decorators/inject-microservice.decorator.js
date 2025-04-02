@@ -7,7 +7,7 @@ const microservices_1 = require("@nestjs/microservices");
 const consul_service_1 = require("../module/consul/consul.service");
 exports.MICROSERVICE_TOKEN_PREFIX = '';
 function InjectMicroservice(serviceName) {
-    return (0, common_1.Inject)(`${exports.MICROSERVICE_TOKEN_PREFIX}${serviceName}`);
+    return (0, common_1.Inject)(serviceName);
 }
 class MicroserviceFactory {
     static async createAsyncClient(serviceName, moduleRef) {

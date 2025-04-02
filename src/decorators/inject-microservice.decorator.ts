@@ -10,7 +10,7 @@ import { ModuleRef } from '@nestjs/core';
 export const MICROSERVICE_TOKEN_PREFIX = '';
 
 export function InjectMicroservice(serviceName: string) {
-  return Inject(`${MICROSERVICE_TOKEN_PREFIX}${serviceName}`);
+  return Inject(serviceName);
 }
 
 export class MicroserviceFactory {

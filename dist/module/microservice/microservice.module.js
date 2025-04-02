@@ -9,29 +9,34 @@ var MicroserviceModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MicroserviceModule = void 0;
 const common_1 = require("@nestjs/common");
-const consul_module_1 = require("../consul/consul.module");
-const inject_microservice_decorator_1 = require("../../decorators/inject-microservice.decorator");
+const config_1 = require("@nestjs/config");
+const microservices_1 = require("@nestjs/microservices");
 let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
-    static forRoot(services) {
-        const providers = services.map((serviceName) => ({
-            provide: `${inject_microservice_decorator_1.MICROSERVICE_TOKEN_PREFIX}${serviceName}`,
-            useFactory: async (moduleRef) => {
-                return inject_microservice_decorator_1.MicroserviceFactory.createAsyncClient(serviceName, moduleRef);
-            },
-            inject: ['MODULE_REF'],
-        }));
+    static forRoot() {
         return {
             module: MicroserviceModule_1,
-            providers,
-            exports: providers,
-            global: true,
+            imports: [
+                microservices_1.ClientsModule.registerAsync([
+                    {
+                        name: 'prize-draw',
+                        imports: [config_1.ConfigModule],
+                        useFactory: async (configService) => ({
+                            transport: microservices_1.Transport.NATS,
+                            options: {
+                                servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
+                            },
+                        }),
+                        inject: [config_1.ConfigService],
+                    },
+                ]),
+            ],
+            exports: [microservices_1.ClientsModule],
         };
     }
 };
 exports.MicroserviceModule = MicroserviceModule;
 exports.MicroserviceModule = MicroserviceModule = MicroserviceModule_1 = __decorate([
-    (0, common_1.Module)({
-        imports: [consul_module_1.ConsulModule],
-    })
+    (0, common_1.Global)(),
+    (0, common_1.Module)({})
 ], MicroserviceModule);
 //# sourceMappingURL=microservice.module.js.map
