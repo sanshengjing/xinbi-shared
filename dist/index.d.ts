@@ -12,3 +12,4 @@ export * from './util/number.service';
 export * from './util/string.service';
 export * from './util/util.module';
 export * from './dto/params.dto';
+export * from './constants/index';
