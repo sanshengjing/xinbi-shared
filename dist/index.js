@@ -15,7 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./config/winston.config"), exports);
-__exportStar(require("./decorators/config.decorator"), exports);
 __exportStar(require("./decorators/inject-microservice.decorator"), exports);
 __exportStar(require("./module/redis/redis.module"), exports);
 __exportStar(require("./module/redis/redis.interface"), exports);
