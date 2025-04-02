@@ -1,10 +1,4 @@
-import {
-  DynamicModule,
-  Global,
-  Module,
-  ModuleMetadata,
-  Type,
-} from '@nestjs/common';
+import { DynamicModule, Global, Module, ModuleMetadata } from '@nestjs/common';
 import { ConsulService } from './consul.service';
 import { ServiceDiscovery } from './service-discovery';
 import { HealthController } from './health.controller';
@@ -41,16 +35,13 @@ export class ConsulModule {
         {
           provide: 'CONSUL_MODULE_OPTIONS',
           useFactory: async (...args: any[]) => {
-            const config = await options.useFactory(...args);
-            console.log('ConsulModule received config:', config);
-            return config;
+            return await options.useFactory(...args);
           },
           inject: options.inject || [],
         },
         {
           provide: ConsulService,
           useFactory: (config: ConsulModuleOptions) => {
-            console.log('Creating ConsulService with config:', config);
             return new ConsulService(config);
           },
           inject: ['CONSUL_MODULE_OPTIONS'],

@@ -22,16 +22,13 @@ let ConsulModule = ConsulModule_1 = class ConsulModule {
                 {
                     provide: 'CONSUL_MODULE_OPTIONS',
                     useFactory: async (...args) => {
-                        const config = await options.useFactory(...args);
-                        console.log('ConsulModule received config:', config);
-                        return config;
+                        return await options.useFactory(...args);
                     },
                     inject: options.inject || [],
                 },
                 {
                     provide: consul_service_1.ConsulService,
                     useFactory: (config) => {
-                        console.log('Creating ConsulService with config:', config);
                         return new consul_service_1.ConsulService(config);
                     },
                     inject: ['CONSUL_MODULE_OPTIONS'],
