@@ -34,7 +34,6 @@ let ConsulService = class ConsulService {
             serviceHost: config.serviceHost || 'localhost',
             servicePort: Number(config.servicePort),
         };
-        console.log('Consul config:', this.config);
     }
     async onModuleInit() {
         this.consul = new consul_1.default({

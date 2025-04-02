@@ -34,7 +34,6 @@ export class ConsulService implements OnModuleInit {
       servicePort: Number(config.servicePort),
     };
 
-    console.log('Consul config:', this.config);
   }
 
   async onModuleInit() {
