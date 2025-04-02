@@ -8,44 +8,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DateService = void 0;
 const common_1 = require("@nestjs/common");
-const dayjs_1 = require("dayjs");
-const weekOfYear_1 = require("dayjs/plugin/weekOfYear");
-const utc_1 = require("dayjs/plugin/utc");
-const timezone_1 = require("dayjs/plugin/timezone");
-dayjs_1.default.extend(weekOfYear_1.default);
-dayjs_1.default.extend(utc_1.default);
-dayjs_1.default.extend(timezone_1.default);
-dayjs_1.default.tz.setDefault('Asia/Shanghai');
+const dayjs = require("dayjs");
+const weekOfYear = require("dayjs/plugin/weekOfYear");
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
+dayjs.extend(weekOfYear);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Shanghai');
 let DateService = class DateService {
     getCurrentDateStr() {
-        return (0, dayjs_1.default)().tz().format('YYYY-MM-DD HH:mm:ss.SSS');
+        return dayjs().tz().format('YYYY-MM-DD HH:mm:ss.SSS');
     }
     getCurrentYMD() {
-        return (0, dayjs_1.default)().tz().format('YYYY-MM-DD');
+        return dayjs().tz().format('YYYY-MM-DD');
     }
     getFormatByDate(date, format) {
-        return (0, dayjs_1.default)(date).tz().format(format);
+        return dayjs(date).tz().format(format);
     }
     getDayjsByDate(date) {
-        return (0, dayjs_1.default)(date).tz();
+        return dayjs(date).tz();
     }
     getHMByDateString(date) {
-        return (0, dayjs_1.default)(date).tz().format('HH:mm');
+        return dayjs(date).tz().format('HH:mm');
     }
     getStartDate(num = 0) {
-        return (0, dayjs_1.default)().tz().add(num).startOf('day').toDate();
+        return dayjs().tz().add(num).startOf('day').toDate();
     }
     getEndDate(num = 0) {
-        return (0, dayjs_1.default)().tz().add(num).endOf('day').toDate();
+        return dayjs().tz().add(num).endOf('day').toDate();
     }
     getDate(num = 0, unit = 'day') {
-        return (0, dayjs_1.default)().tz().add(num, unit).toDate();
+        return dayjs().tz().add(num, unit).toDate();
     }
     getDayjs(num = 0, unit = 'day') {
-        return (0, dayjs_1.default)().tz().add(num, unit);
+        return dayjs().tz().add(num, unit);
     }
     getDayjsByStr(dataStr) {
-        return (0, dayjs_1.default)(dataStr).tz();
+        return dayjs(dataStr).tz();
     }
 };
 exports.DateService = DateService;
