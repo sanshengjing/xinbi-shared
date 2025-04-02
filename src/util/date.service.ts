@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import dayjs, { type ManipulateType } from 'dayjs';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import * as dayjs from 'dayjs';
+import * as weekOfYear from 'dayjs/plugin/weekOfYear';
+import * as utc from 'dayjs/plugin/utc';
+import * as timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(weekOfYear);
 dayjs.extend(utc);
@@ -40,11 +40,11 @@ export class DateService {
     return dayjs().tz().add(num).endOf('day').toDate();
   }
 
-  getDate(num: number = 0, unit: ManipulateType = 'day') {
+  getDate(num: number = 0, unit: dayjs.ManipulateType = 'day') {
     return dayjs().tz().add(num, unit).toDate();
   }
 
-  getDayjs(num: number = 0, unit: ManipulateType = 'day') {
+  getDayjs(num: number = 0, unit: dayjs.ManipulateType = 'day') {
     return dayjs().tz().add(num, unit);
   }
 
