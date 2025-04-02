@@ -12,23 +12,21 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const microservices_1 = require("@nestjs/microservices");
 let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
-    static forRoot() {
+    static forRoot(options) {
         return {
             module: MicroserviceModule_1,
             imports: [
-                microservices_1.ClientsModule.registerAsync([
-                    {
-                        name: 'prize-draw',
-                        imports: [config_1.ConfigModule],
-                        useFactory: async (configService) => ({
-                            transport: microservices_1.Transport.NATS,
-                            options: {
-                                servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
-                            },
-                        }),
-                        inject: [config_1.ConfigService],
-                    },
-                ]),
+                microservices_1.ClientsModule.registerAsync(options.services.map(serviceName => ({
+                    name: serviceName,
+                    imports: [config_1.ConfigModule],
+                    useFactory: async (configService) => ({
+                        transport: microservices_1.Transport.NATS,
+                        options: {
+                            servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
+                        },
+                    }),
+                    inject: [config_1.ConfigService],
+                }))),
             ],
             exports: [microservices_1.ClientsModule],
         };
