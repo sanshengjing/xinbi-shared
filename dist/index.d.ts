@@ -16,3 +16,4 @@ export * as PrizeDrawDto from './dto/prize-draw.dto';
 export * as VerifyBotDto from './dto/verify-bot.dto';
 export * as SystemJobDto from './dto/system-job.dto';
 export * from './constants/index';
+export * from './api';

@@ -55,4 +55,5 @@ exports.PrizeDrawDto = __importStar(require("./dto/prize-draw.dto"));
 exports.VerifyBotDto = __importStar(require("./dto/verify-bot.dto"));
 exports.SystemJobDto = __importStar(require("./dto/system-job.dto"));
 __exportStar(require("./constants/index"), exports);
+__exportStar(require("./api"), exports);
 //# sourceMappingURL=index.js.map
