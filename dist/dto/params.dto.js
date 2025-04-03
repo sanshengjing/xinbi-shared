@@ -51,7 +51,7 @@ __decorate([
         required: false,
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumberString)({}, { message: '开始日期必须是时间戳格式' }),
+    (0, class_transformer_1.Transform)(({ value }) => value && parseInt(value, 10)),
     __metadata("design:type", Number)
 ], StartEndTimeDto.prototype, "startTime", void 0);
 __decorate([
@@ -62,7 +62,7 @@ __decorate([
         required: false,
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumberString)({}, { message: '结束日期必须是时间戳格式' }),
+    (0, class_transformer_1.Transform)(({ value }) => value && parseInt(value, 10)),
     __metadata("design:type", Number)
 ], StartEndTimeDto.prototype, "endTime", void 0);
 //# sourceMappingURL=params.dto.js.map

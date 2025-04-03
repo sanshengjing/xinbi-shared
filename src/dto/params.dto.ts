@@ -3,7 +3,6 @@ import { Transform } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
-  IsNumberString,
   IsOptional,
   Min,
 } from 'class-validator';
@@ -40,7 +39,7 @@ export class StartEndTimeDto {
     required: false,
   })
   @IsOptional()
-  @IsNumberString({}, { message: '开始日期必须是时间戳格式' })
+  @Transform(({ value }) => value && parseInt(value, 10))
   startTime?: number;
 
   @ApiProperty({
@@ -50,6 +49,6 @@ export class StartEndTimeDto {
     required: false,
   })
   @IsOptional()
-  @IsNumberString({}, { message: '结束日期必须是时间戳格式' })
+  @Transform(({ value }) => value && parseInt(value, 10))
   endTime?: number;
 }
