@@ -59,29 +59,34 @@ exports.BaseRuleDto = BaseRuleDto;
 __decorate([
     (0, swagger_1.ApiProperty)({ description: '标题' }),
     (0, class_validator_1.IsNotEmpty)({ message: '标题不能为空' }),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], BaseRuleDto.prototype, "title", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: '描述' }),
     (0, class_validator_1.IsNotEmpty)({ message: '描述不能为空' }),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], BaseRuleDto.prototype, "desc", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: '最大参与人数' }),
     (0, class_validator_1.IsNotEmpty)({ message: '参与人数不能为空' }),
     (0, class_transformer_1.Transform)(({ value }) => value && parseInt(value, 10)),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], BaseRuleDto.prototype, "numOfPart", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: '中奖人数' }),
     (0, class_validator_1.IsNotEmpty)({ message: '中奖人数不能为空' }),
     (0, class_transformer_1.Transform)(({ value }) => value && parseInt(value, 10)),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], BaseRuleDto.prototype, "numOfWin", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: '有效时长（分钟）' }),
     (0, class_validator_1.IsNotEmpty)({ message: '有效时长不能为空' }),
     (0, class_transformer_1.Transform)(({ value }) => value && parseInt(value, 10)),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], BaseRuleDto.prototype, "validDuration", void 0);
 class ListRuleDto extends (0, mapped_types_1.IntersectionType)(BaseRuleDto, params_dto_1.PaginatingDTO, params_dto_1.StartEndTimeDto) {

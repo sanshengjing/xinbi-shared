@@ -41,25 +41,30 @@ export class UpdateGroupDto extends OmitType(BaseGroupDto, ['groupId']) {}
 export class BaseRuleDto {
   @ApiProperty({ description: '标题' })
   @IsNotEmpty({ message: '标题不能为空' })
+  @IsOptional()
   title: string;
 
   @ApiProperty({ description: '描述' })
   @IsNotEmpty({ message: '描述不能为空' })
+  @IsOptional()
   desc: string;
 
   @ApiProperty({ description: '最大参与人数' })
   @IsNotEmpty({ message: '参与人数不能为空' })
   @Transform(({ value }) => value && parseInt(value, 10))
+  @IsOptional()
   numOfPart: number;
 
   @ApiProperty({ description: '中奖人数' })
   @IsNotEmpty({ message: '中奖人数不能为空' })
   @Transform(({ value }) => value && parseInt(value, 10))
+  @IsOptional()
   numOfWin: number;
 
   @ApiProperty({ description: '有效时长（分钟）' })
   @IsNotEmpty({ message: '有效时长不能为空' })
   @Transform(({ value }) => value && parseInt(value, 10))
+  @IsOptional()
   validDuration: number;
 }
 
