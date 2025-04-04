@@ -16,12 +16,13 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
         return {
             module: MicroserviceModule_1,
             imports: [
-                microservices_1.ClientsModule.register(options.services.map(serviceName => ({
+                microservices_1.ClientsModule.registerAsync(options.services.map(serviceName => ({
                     name: serviceName,
                     imports: [config_1.ConfigModule],
-                    useFactory: (configService) => {
+                    useFactory: async (configService) => {
                         const transportUrl = configService.get('TRANSPORT_URL', '');
                         console.log('transportUrl =====', transportUrl);
+                        console.log('Initializing microservice client for:', serviceName);
                         return {
                             transport: microservices_1.Transport.RMQ,
                             options: {
