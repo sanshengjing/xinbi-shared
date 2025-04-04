@@ -58,7 +58,6 @@ let ConsulService = class ConsulService {
                     timeout: '5s',
                     deregistercriticalserviceafter: '30s',
                 },
-                tags: ['microservice', 'nats'],
             };
             await this.consul.agent.service.register(registration);
             console.log(`Service ${this.config.name} registered successfully with ID: ${serviceId}`);

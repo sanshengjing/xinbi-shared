@@ -10,21 +10,28 @@ export interface MicroserviceOptions {
 @Module({})
 export class MicroserviceModule {
   static forRoot(options: MicroserviceOptions): DynamicModule {
+
     return {
       module: MicroserviceModule,
       imports: [
-        ClientsModule.registerAsync(
+        ClientsModule.register(
           options.services.map(serviceName => ({
             name: serviceName,
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-              transport: Transport.NATS,
-              options: {
-                servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
-              },
-            }),
+            useFactory: (configService: ConfigService) => {
+              const username = configService.get<string>('TRANSPORT_USERNAME', '');
+              const password = configService.get<string>('TRANSPORT_PASSWORD', '');
+              const transportHost = configService.get('TRANSPORT_HOST', '');
+              const transportPort = configService.get<number>('TRANSPORT_PORT', 5672);
+              return {
+                transport: Transport.RMQ,
+                options: {
+                  servers: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
+                },
+              };
+            },
             inject: [ConfigService],
-          }))
+          })),
         ),
       ],
       exports: [ClientsModule],

@@ -62,7 +62,7 @@ export class ConsulService implements OnModuleInit {
           timeout: '5s',
           deregistercriticalserviceafter: '30s',
         },
-        tags: ['microservice', 'nats'],
+        // tags: ['microservice', 'nats'],
       };
 
       await this.consul.agent.service.register(registration);

@@ -5,7 +5,6 @@ export * from './module/redis/redis.interface';
 export * from './module/redis/redis.service';
 export * from './module/consul/consul.module';
 export * from './module/consul/consul.service';
-export * from './module/consul/service-discovery';
 export * from './module/microservice/microservice.module';
 export * from './util/date.service';
 export * from './util/number.service';

@@ -10,7 +10,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsulModule = void 0;
 const common_1 = require("@nestjs/common");
 const consul_service_1 = require("./consul.service");
-const service_discovery_1 = require("./service-discovery");
 const health_controller_1 = require("./health.controller");
 let ConsulModule = ConsulModule_1 = class ConsulModule {
     static forRootAsync(options) {
@@ -34,9 +33,8 @@ let ConsulModule = ConsulModule_1 = class ConsulModule {
             providers: [
                 optionsProvider,
                 consulServiceProvider,
-                service_discovery_1.ServiceDiscovery,
             ],
-            exports: [consul_service_1.ConsulService, service_discovery_1.ServiceDiscovery],
+            exports: [consul_service_1.ConsulService],
         };
     }
 };
@@ -45,8 +43,8 @@ exports.ConsulModule = ConsulModule = ConsulModule_1 = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
         controllers: [health_controller_1.HealthController],
-        providers: [consul_service_1.ConsulService, service_discovery_1.ServiceDiscovery],
-        exports: [consul_service_1.ConsulService, service_discovery_1.ServiceDiscovery],
+        providers: [consul_service_1.ConsulService],
+        exports: [consul_service_1.ConsulService],
     })
 ], ConsulModule);
 //# sourceMappingURL=consul.module.js.map

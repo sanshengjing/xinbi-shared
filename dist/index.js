@@ -44,7 +44,6 @@ __exportStar(require("./module/redis/redis.interface"), exports);
 __exportStar(require("./module/redis/redis.service"), exports);
 __exportStar(require("./module/consul/consul.module"), exports);
 __exportStar(require("./module/consul/consul.service"), exports);
-__exportStar(require("./module/consul/service-discovery"), exports);
 __exportStar(require("./module/microservice/microservice.module"), exports);
 __exportStar(require("./util/date.service"), exports);
 __exportStar(require("./util/number.service"), exports);

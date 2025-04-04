@@ -1,6 +1,5 @@
 import { DynamicModule, Global, Module, ModuleMetadata } from '@nestjs/common';
 import { ConsulService } from './consul.service';
-import { ServiceDiscovery } from './service-discovery';
 import { HealthController } from './health.controller';
 
 export interface ConsulModuleOptions {
@@ -22,8 +21,8 @@ export interface ConsulModuleAsyncOptions
 @Global()
 @Module({
   controllers: [HealthController],
-  providers: [ConsulService, ServiceDiscovery],
-  exports: [ConsulService, ServiceDiscovery],
+  providers: [ConsulService],
+  exports: [ConsulService],
 })
 export class ConsulModule {
   static forRootAsync(options: ConsulModuleAsyncOptions): DynamicModule {
@@ -49,9 +48,8 @@ export class ConsulModule {
       providers: [
         optionsProvider,
         consulServiceProvider,
-        ServiceDiscovery,
       ],
-      exports: [ConsulService, ServiceDiscovery],
+      exports: [ConsulService],
     };
   }
 }

@@ -16,15 +16,21 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
         return {
             module: MicroserviceModule_1,
             imports: [
-                microservices_1.ClientsModule.registerAsync(options.services.map(serviceName => ({
+                microservices_1.ClientsModule.register(options.services.map(serviceName => ({
                     name: serviceName,
                     imports: [config_1.ConfigModule],
-                    useFactory: async (configService) => ({
-                        transport: microservices_1.Transport.NATS,
-                        options: {
-                            servers: [`nats://${configService.get('NATS_HOST')}:${configService.get('NATS_PORT')}`],
-                        },
-                    }),
+                    useFactory: (configService) => {
+                        const username = configService.get('TRANSPORT_USERNAME', '');
+                        const password = configService.get('TRANSPORT_PASSWORD', '');
+                        const transportHost = configService.get('TRANSPORT_HOST', '');
+                        const transportPort = configService.get('TRANSPORT_PORT', 5672);
+                        return {
+                            transport: microservices_1.Transport.RMQ,
+                            options: {
+                                servers: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
+                            },
+                        };
+                    },
                     inject: [config_1.ConfigService],
                 }))),
             ],
