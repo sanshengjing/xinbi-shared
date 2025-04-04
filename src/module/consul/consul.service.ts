@@ -7,6 +7,8 @@ type ConsulServiceType = {
   Address: string;
   Port: number;
   Service: string;
+  username: string;
+  password: string;
 };
 
 @Injectable()
@@ -62,7 +64,6 @@ export class ConsulService implements OnModuleInit {
           timeout: '5s',
           deregistercriticalserviceafter: '30s',
         },
-        // tags: ['microservice', 'nats'],
       };
 
       await this.consul.agent.service.register(registration);
