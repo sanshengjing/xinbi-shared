@@ -8,73 +8,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var RedisModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RedisModule = void 0;
 const common_1 = require("@nestjs/common");
 const redis_service_1 = require("./redis.service");
 const ioredis_1 = __importDefault(require("ioredis"));
-let RedisModule = RedisModule_1 = class RedisModule {
-    static forRoot(options) {
-        return {
-            module: RedisModule_1,
-            providers: [
-                {
-                    provide: 'REDIS_OPTIONS',
-                    useValue: options,
-                },
-                {
-                    provide: 'REDIS_CLIENT',
-                    useFactory: () => {
-                        return new ioredis_1.default({
-                            host: options.host || 'localhost',
-                            port: options.port || 6379,
-                            db: options.db || 0,
-                            keyPrefix: options.keyPrefix || '',
-                            password: options.password,
-                            username: options.username,
-                            lazyConnect: options.lazyConnect ?? true,
-                        });
-                    },
-                },
-                redis_service_1.RedisService,
-            ],
-            exports: [redis_service_1.RedisService],
-        };
-    }
-    static forRootAsync(options) {
-        return {
-            module: RedisModule_1,
-            providers: [
-                {
-                    provide: 'REDIS_OPTIONS',
-                    useFactory: options.useFactory,
-                    inject: options.inject || [],
-                },
-                {
-                    provide: 'REDIS_CLIENT',
-                    useFactory: (redisOptions) => {
-                        return new ioredis_1.default({
-                            host: redisOptions.host || 'localhost',
-                            port: redisOptions.port || 6379,
-                            db: redisOptions.db || 0,
-                            keyPrefix: redisOptions.keyPrefix || '',
-                            password: redisOptions.password,
-                            username: redisOptions.username,
-                            lazyConnect: redisOptions.lazyConnect ?? true,
-                        });
-                    },
-                    inject: ['REDIS_OPTIONS'],
-                },
-                redis_service_1.RedisService,
-            ],
-            exports: [redis_service_1.RedisService],
-        };
-    }
+const config_1 = require("@nestjs/config");
+let RedisModule = class RedisModule {
 };
 exports.RedisModule = RedisModule;
-exports.RedisModule = RedisModule = RedisModule_1 = __decorate([
+exports.RedisModule = RedisModule = __decorate([
     (0, common_1.Global)(),
-    (0, common_1.Module)({})
+    (0, common_1.Module)({
+        imports: [config_1.ConfigModule],
+        providers: [
+            {
+                provide: 'REDIS_CLIENT',
+                useFactory: (configService) => {
+                    const host = configService.get('REDIS_HOST', 'localhost');
+                    const port = configService.get('REDIS_PORT', 6379);
+                    const db = configService.get('REDIS_DB', 0);
+                    const keyPrefix = configService.get('rREDIS_KEY_PREFIX', '');
+                    const username = configService.get('REDIS_USERNAME', '');
+                    const password = configService.get('REDIS_PASSWORD', '');
+                    return new ioredis_1.default({
+                        host,
+                        port,
+                        db,
+                        keyPrefix,
+                        username,
+                        password,
+                        lazyConnect: true,
+                        retryStrategy: (times) => {
+                            return Math.min(times * 50, 2000);
+                        },
+                    });
+                },
+                inject: [config_1.ConfigService],
+            },
+            redis_service_1.RedisService,
+        ],
+        exports: [redis_service_1.RedisService],
+    })
 ], RedisModule);
 //# sourceMappingURL=redis.module.js.map

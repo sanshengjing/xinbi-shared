@@ -1,67 +1,39 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { RedisService } from './redis.service';
-import { RedisModuleOptions, RedisModuleAsyncOptions } from './redis.interface';
 import Redis from 'ioredis';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global()
-@Module({})
-export class RedisModule {
-  static forRoot(options: RedisModuleOptions): DynamicModule {
-    return {
-      module: RedisModule,
-      providers: [
-        {
-          provide: 'REDIS_OPTIONS',
-          useValue: options,
-        },
-        {
-          provide: 'REDIS_CLIENT',
-          useFactory: () => {
-            return new Redis({
-              host: options.host || 'localhost',
-              port: options.port || 6379,
-              db: options.db || 0,
-              keyPrefix: options.keyPrefix || '',
-              password: options.password,
-              username: options.username,
-              lazyConnect: options.lazyConnect ?? true,
-            });
-          },
-        },
-        RedisService,
-      ],
-      exports: [RedisService],
-    };
-  }
+@Module({
+  imports: [ConfigModule],
+  providers: [
+    {
+      provide: 'REDIS_CLIENT',
+      useFactory: (configService: ConfigService) => {
+        const host = configService.get<string>('REDIS_HOST', 'localhost');
+        const port = configService.get<number>('REDIS_PORT', 6379);
+        const db = configService.get<number>('REDIS_DB', 0);
+        const keyPrefix = configService.get<string>('rREDIS_KEY_PREFIX', '');
+        const username = configService.get<string>('REDIS_USERNAME', '');
+        const password = configService.get<string>('REDIS_PASSWORD', '');
 
-  static forRootAsync(options: RedisModuleAsyncOptions): DynamicModule {
-    return {
-      module: RedisModule,
-      providers: [
-        {
-          provide: 'REDIS_OPTIONS',
-          useFactory: options.useFactory,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          inject: options.inject || [],
-        },
-        {
-          provide: 'REDIS_CLIENT',
-          useFactory: (redisOptions: RedisModuleOptions) => {
-            return new Redis({
-              host: redisOptions.host || 'localhost',
-              port: redisOptions.port || 6379,
-              db: redisOptions.db || 0,
-              keyPrefix: redisOptions.keyPrefix || '',
-              password: redisOptions.password,
-              username: redisOptions.username,
-              lazyConnect: redisOptions.lazyConnect ?? true,
-            });
+        return new Redis({
+          host,
+          port,
+          db,
+          keyPrefix,
+          username,
+          password,
+          lazyConnect: true,
+          retryStrategy: (times) => {
+            return Math.min(times * 50, 2000);
           },
-          inject: ['REDIS_OPTIONS'],
-        },
-        RedisService,
-      ],
-      exports: [RedisService],
-    };
-  }
-}
+        });
+      },
+      inject: [ConfigService],
+    },
+    RedisService,
+  ],
+  exports: [RedisService],
+})
+export class RedisModule {}
