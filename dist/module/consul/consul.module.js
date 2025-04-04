@@ -5,41 +5,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var ConsulModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsulModule = void 0;
 const common_1 = require("@nestjs/common");
 const consul_service_1 = require("./consul.service");
 const health_controller_1 = require("./health.controller");
-let ConsulModule = ConsulModule_1 = class ConsulModule {
-    static forRootAsync(options) {
-        const optionsProvider = {
-            provide: 'CONSUL_MODULE_OPTIONS',
-            useFactory: options.useFactory,
-            inject: options.inject || [],
-        };
-        const consulServiceProvider = {
-            provide: consul_service_1.ConsulService,
-            useFactory: (config) => {
-                return new consul_service_1.ConsulService(config);
-            },
-            inject: ['CONSUL_MODULE_OPTIONS'],
-        };
-        return {
-            module: ConsulModule_1,
-            global: true,
-            imports: [...(options.imports || [])],
-            controllers: [health_controller_1.HealthController],
-            providers: [
-                optionsProvider,
-                consulServiceProvider,
-            ],
-            exports: [consul_service_1.ConsulService],
-        };
-    }
+let ConsulModule = class ConsulModule {
 };
 exports.ConsulModule = ConsulModule;
-exports.ConsulModule = ConsulModule = ConsulModule_1 = __decorate([
+exports.ConsulModule = ConsulModule = __decorate([
     (0, common_1.Global)(),
     (0, common_1.Module)({
         controllers: [health_controller_1.HealthController],

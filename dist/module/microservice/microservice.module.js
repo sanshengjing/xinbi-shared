@@ -20,14 +20,11 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
                     name: serviceName,
                     imports: [config_1.ConfigModule],
                     useFactory: (configService) => {
-                        const username = configService.get('TRANSPORT_USERNAME', '');
-                        const password = configService.get('TRANSPORT_PASSWORD', '');
-                        const transportHost = configService.get('TRANSPORT_HOST', '');
-                        const transportPort = configService.get('TRANSPORT_PORT', 5672);
+                        const transportUrl = configService.get('TRANSPORT_URL', '');
                         return {
                             transport: microservices_1.Transport.RMQ,
                             options: {
-                                urls: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
+                                urls: [transportUrl],
                             },
                         };
                     },

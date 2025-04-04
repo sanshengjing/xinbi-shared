@@ -16,51 +16,41 @@ exports.ConsulService = void 0;
 const common_1 = require("@nestjs/common");
 const consul_1 = __importDefault(require("consul"));
 const uuid_1 = require("uuid");
+const config_1 = require("@nestjs/config");
 let ConsulService = class ConsulService {
-    constructor(config) {
-        if (!config.name) {
-            throw new Error('Service name is required');
-        }
-        if (!config.port) {
-            throw new Error('Consul port is required');
-        }
-        if (!config.servicePort) {
-            throw new Error('Service port is required');
-        }
-        this.config = {
-            name: config.name,
-            host: config.host || 'localhost',
-            port: Number(config.port),
-            serviceHost: config.serviceHost || 'localhost',
-            servicePort: Number(config.servicePort),
-        };
+    constructor(configService) {
+        this.microserviceName = configService.get('MICROSERVICE_NAME', '');
+        this.consulHost = configService.get('CONSUL_HOST', '');
+        this.consulPort = configService.get('CONSUL_PORT', 8500);
+        this.serviceHost = configService.get('SERVICE_HOST', '');
+        this.servicePort = configService.get('MICROSERVICE_PORT', 3000);
     }
     async onModuleInit() {
         this.consul = new consul_1.default({
-            host: this.config.host,
-            port: this.config.port,
+            host: this.consulHost,
+            port: this.consulPort,
         });
         await this.registerService();
     }
     async registerService() {
-        console.log('Registering service:', this.config.name);
-        const serviceId = `${this.config.name}-${(0, uuid_1.v4)()}`;
+        console.log('Registering service:', this.microserviceName);
+        const serviceId = `${this.microserviceName}-${(0, uuid_1.v4)()}`;
         try {
             const registration = {
                 id: serviceId,
-                name: this.config.name,
-                address: this.config.serviceHost,
-                port: this.config.servicePort,
+                name: this.microserviceName,
+                address: this.serviceHost,
+                port: this.servicePort,
                 check: {
-                    name: this.config.name,
-                    http: `http://${this.config.serviceHost}:${this.config.servicePort}/health`,
+                    name: this.microserviceName,
+                    http: `http://${this.serviceHost}:${this.servicePort}/health`,
                     interval: '10s',
                     timeout: '5s',
                     deregistercriticalserviceafter: '30s',
                 },
             };
             await this.consul.agent.service.register(registration);
-            console.log(`Service ${this.config.name} registered successfully with ID: ${serviceId}`);
+            console.log(`Service ${this.microserviceName} registered successfully with ID: ${serviceId}`);
         }
         catch (e) {
             console.error('服务注册出错:', e);
@@ -75,6 +65,6 @@ let ConsulService = class ConsulService {
 exports.ConsulService = ConsulService;
 exports.ConsulService = ConsulService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [config_1.ConfigService])
 ], ConsulService);
 //# sourceMappingURL=consul.service.js.map
