@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import Consul from 'consul';
 import { v4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
@@ -10,7 +10,7 @@ type ConsulServiceType = {
 };
 
 @Injectable()
-export class ConsulService implements OnModuleInit {
+export class ConsulService implements OnModuleInit, OnModuleDestroy {
   private consul: Consul;
   private serviceId: string;
   private readonly microserviceName: string;
