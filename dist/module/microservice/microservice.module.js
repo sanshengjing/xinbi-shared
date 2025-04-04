@@ -21,12 +21,11 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
                     imports: [config_1.ConfigModule],
                     useFactory: (configService) => {
                         const transportUrl = configService.get('TRANSPORT_URL', '');
-                        const microserviceName = configService.get('MICROSERVICE_NAME', '');
                         return {
                             transport: microservices_1.Transport.RMQ,
                             options: {
                                 urls: [transportUrl],
-                                queue: `${microserviceName}_queue`,
+                                queue: `${serviceName}_queue`,
                                 queueOptions: {
                                     durable: true,
                                 },

@@ -1,11 +1,11 @@
-import { OnModuleInit } from '@nestjs/common';
+import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 type ConsulServiceType = {
     Address: string;
     Port: number;
     Service: string;
 };
-export declare class ConsulService implements OnModuleInit {
+export declare class ConsulService implements OnModuleInit, OnModuleDestroy {
     private consul;
     private serviceId;
     private readonly microserviceName;
