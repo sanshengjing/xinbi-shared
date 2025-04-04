@@ -38,7 +38,6 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SystemJobDto = exports.VerifyBotDto = exports.PrizeDrawDto = void 0;
 __exportStar(require("./config/winston.config"), exports);
-__exportStar(require("./decorators/inject-microservice.decorator"), exports);
 __exportStar(require("./module/redis/redis.module"), exports);
 __exportStar(require("./module/redis/redis.service"), exports);
 __exportStar(require("./module/consul/consul.module"), exports);

@@ -1,5 +1,4 @@
 export * from './config/winston.config';
-export * from './decorators/inject-microservice.decorator';
 export * from './module/redis/redis.module';
 export * from './module/redis/redis.service';
 export * from './module/consul/consul.module';
