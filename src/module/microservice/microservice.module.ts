@@ -20,12 +20,12 @@ export class MicroserviceModule {
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => {
               const transportUrl = configService.get<string>('TRANSPORT_URL', '');
-              const transportQueue = configService.get<string>('TRANSPORT_QUEUE', '');
+              const microserviceName = configService.get<string>('MICROSERVICE_NAME', '');
               return {
                 transport: Transport.RMQ,
                 options: {
                   urls: [transportUrl],
-                  queue: transportQueue, // 队列名称是必需的
+                  queue: `${microserviceName}_queue`, // 队列名称是必需的
                   queueOptions: {
                     durable: true, // 队列持久化
                   },
