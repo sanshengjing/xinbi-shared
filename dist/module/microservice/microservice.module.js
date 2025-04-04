@@ -21,17 +21,17 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
                     imports: [config_1.ConfigModule],
                     useFactory: (configService) => {
                         const transportUrl = configService.get('TRANSPORT_URL', '');
+                        console.log('transportUrl =====', transportUrl);
                         return {
                             transport: microservices_1.Transport.RMQ,
                             options: {
                                 urls: [transportUrl],
                                 queue: `${serviceName}_queue`,
+                                noAck: true,
+                                persistent: false,
                                 queueOptions: {
-                                    durable: true,
-                                },
-                                socketOptions: {
-                                    heartbeatIntervalInSeconds: 30,
-                                    reconnectTimeInSeconds: 5,
+                                    durable: false,
+                                    autoDelete: true,
                                 },
                             },
                         };

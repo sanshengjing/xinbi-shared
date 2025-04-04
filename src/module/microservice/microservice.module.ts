@@ -20,17 +20,17 @@ export class MicroserviceModule {
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => {
               const transportUrl = configService.get<string>('TRANSPORT_URL', '');
+              console.log('transportUrl =====', transportUrl);
               return {
                 transport: Transport.RMQ,
                 options: {
                   urls: [transportUrl],
                   queue: `${serviceName}_queue`, // 队列名称是必需的
+                  noAck: true, // 自动确认消息
+                  persistent: false, // 不持久化消息
                   queueOptions: {
-                    durable: true, // 队列持久化
-                  },
-                  socketOptions: {
-                    heartbeatIntervalInSeconds: 30, // 心跳检测
-                    reconnectTimeInSeconds: 5, // 自动重连
+                    durable: false, // 队列不持久化
+                    autoDelete: true, // 没有消费者时自动删除队列
                   },
                 },
               };
