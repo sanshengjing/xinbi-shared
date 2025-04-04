@@ -33,8 +33,8 @@ exports.RedisModule = RedisModule = __decorate([
                     const password = configService.get('REDIS_PASSWORD', '');
                     return new ioredis_1.default({
                         host,
-                        port,
-                        db,
+                        port: Number(port),
+                        db: Number(db),
                         keyPrefix,
                         username,
                         password,

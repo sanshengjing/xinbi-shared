@@ -21,9 +21,9 @@ export class ConsulService implements OnModuleInit {
   constructor(configService: ConfigService) {
     this.microserviceName = configService.get<string>('MICROSERVICE_NAME', '');
     this.consulHost = configService.get<string>('CONSUL_HOST', '');
-    this.consulPort = configService.get<number>('CONSUL_PORT', 8500);
+    this.consulPort = Number(configService.get<number>('CONSUL_PORT', 8500));
     this.serviceHost = configService.get<string>('SERVICE_HOST', '');
-    this.servicePort = configService.get<number>('MICROSERVICE_PORT', 3000);
+    this.servicePort = Number(configService.get<number>('MICROSERVICE_PORT', 3000));
   }
 
   async onModuleInit() {

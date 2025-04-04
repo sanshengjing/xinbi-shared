@@ -19,8 +19,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
         return new Redis({
           host,
-          port,
-          db,
+          port: Number(port),
+          db: Number(db),
           keyPrefix,
           username,
           password,

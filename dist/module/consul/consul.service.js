@@ -21,9 +21,9 @@ let ConsulService = class ConsulService {
     constructor(configService) {
         this.microserviceName = configService.get('MICROSERVICE_NAME', '');
         this.consulHost = configService.get('CONSUL_HOST', '');
-        this.consulPort = configService.get('CONSUL_PORT', 8500);
+        this.consulPort = Number(configService.get('CONSUL_PORT', 8500));
         this.serviceHost = configService.get('SERVICE_HOST', '');
-        this.servicePort = configService.get('MICROSERVICE_PORT', 3000);
+        this.servicePort = Number(configService.get('MICROSERVICE_PORT', 3000));
     }
     async onModuleInit() {
         this.consul = new consul_1.default({
