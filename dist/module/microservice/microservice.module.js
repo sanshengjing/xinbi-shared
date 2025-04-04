@@ -27,7 +27,7 @@ let MicroserviceModule = MicroserviceModule_1 = class MicroserviceModule {
                         return {
                             transport: microservices_1.Transport.RMQ,
                             options: {
-                                servers: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
+                                urls: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
                             },
                         };
                     },

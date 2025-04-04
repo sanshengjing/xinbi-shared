@@ -26,7 +26,7 @@ export class MicroserviceModule {
               return {
                 transport: Transport.RMQ,
                 options: {
-                  servers: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
+                  urls: [`amqp://${username}:${password}@${transportHost}:${transportPort}`],
                 },
               };
             },
