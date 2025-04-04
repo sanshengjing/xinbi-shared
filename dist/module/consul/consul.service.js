@@ -30,14 +30,40 @@ let ConsulService = class ConsulService {
             host: this.consulHost,
             port: this.consulPort,
         });
+        await this.deregisterStaleInstances();
         await this.registerService();
+    }
+    async onModuleDestroy() {
+        if (this.serviceId) {
+            try {
+                await this.consul.agent.service.deregister(this.serviceId);
+                console.log(`Service ${this.microserviceName} deregistered successfully`);
+            }
+            catch (error) {
+                console.error('Error deregistering service:', error);
+            }
+        }
+    }
+    async deregisterStaleInstances() {
+        try {
+            const services = await this.consul.agent.services();
+            for (const [serviceId, service] of Object.entries(services)) {
+                if (service.Service === this.microserviceName) {
+                    await this.consul.agent.service.deregister(serviceId);
+                    console.log(`Deregistered stale instance: ${serviceId}`);
+                }
+            }
+        }
+        catch (error) {
+            console.error('Error cleaning up stale instances:', error);
+        }
     }
     async registerService() {
         console.log('Registering service:', this.microserviceName);
-        const serviceId = `${this.microserviceName}-${(0, uuid_1.v4)()}`;
+        this.serviceId = `${this.microserviceName}-${(0, uuid_1.v4)()}`;
         try {
             const registration = {
-                id: serviceId,
+                id: this.serviceId,
                 name: this.microserviceName,
                 address: this.serviceHost,
                 port: this.servicePort,
@@ -50,7 +76,7 @@ let ConsulService = class ConsulService {
                 },
             };
             await this.consul.agent.service.register(registration);
-            console.log(`Service ${this.microserviceName} registered successfully with ID: ${serviceId}`);
+            console.log(`Service ${this.microserviceName} registered successfully with ID: ${this.serviceId}`);
         }
         catch (e) {
             console.error('服务注册出错:', e);

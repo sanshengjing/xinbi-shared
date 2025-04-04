@@ -7,6 +7,7 @@ type ConsulServiceType = {
 };
 export declare class ConsulService implements OnModuleInit {
     private consul;
+    private serviceId;
     private readonly microserviceName;
     private readonly consulHost;
     private readonly consulPort;
@@ -14,6 +15,8 @@ export declare class ConsulService implements OnModuleInit {
     private readonly servicePort;
     constructor(configService: ConfigService);
     onModuleInit(): Promise<void>;
+    onModuleDestroy(): Promise<void>;
+    private deregisterStaleInstances;
     private registerService;
     getService(serviceName: string): Promise<ConsulServiceType>;
 }
