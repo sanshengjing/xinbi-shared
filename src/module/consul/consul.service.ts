@@ -33,7 +33,7 @@ export class ConsulService implements OnModuleInit, OnModuleDestroy {
       port: this.consulPort,
     });
     // 清理同名旧实例
-    await this.deregisterStaleInstances();
+    // await this.deregisterStaleInstances();
     // 注册服务
     await this.registerService();
   }
@@ -49,19 +49,19 @@ export class ConsulService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  private async deregisterStaleInstances() {
-    try {
-      const services = await this.consul.agent.services();
-      for (const [serviceId, service] of Object.entries(services)) {
-        if (service.Service === this.microserviceName) {
-          await this.consul.agent.service.deregister(serviceId);
-          console.log(`Deregistered stale instance: ${serviceId}`);
-        }
-      }
-    } catch (error) {
-      console.error('Error cleaning up stale instances:', error);
-    }
-  }
+  // private async deregisterStaleInstances() {
+  //   try {
+  //     const services = await this.consul.agent.services();
+  //     for (const [serviceId, service] of Object.entries(services)) {
+  //       if (service.Service === this.microserviceName) {
+  //         await this.consul.agent.service.deregister(serviceId);
+  //         console.log(`Deregistered stale instance: ${serviceId}`);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error cleaning up stale instances:', error);
+  //   }
+  // }
 
   private async registerService() {
     console.log('Registering service:', this.microserviceName);

@@ -16,7 +16,6 @@ export declare class ConsulService implements OnModuleInit, OnModuleDestroy {
     constructor(configService: ConfigService);
     onModuleInit(): Promise<void>;
     onModuleDestroy(): Promise<void>;
-    private deregisterStaleInstances;
     private registerService;
     getService(serviceName: string): Promise<ConsulServiceType>;
 }

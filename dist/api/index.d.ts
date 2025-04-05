@@ -8,7 +8,8 @@ export declare enum PrizeDrawApiEnum {
     findAllGroup = "findAllGroup",
     findOneGroup = "findOneGroup",
     updateGroup = "updateGroup",
-    removeGroup = "removeGroup"
+    removeGroup = "removeGroup",
+    startPriceDraw = "startPriceDraw"
 }
 export declare enum VerifyBotApiEnum {
     createWhiteList = "createWhiteList",

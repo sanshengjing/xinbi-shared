@@ -43,6 +43,7 @@ __exportStar(require("./module/redis/redis.service"), exports);
 __exportStar(require("./module/consul/consul.module"), exports);
 __exportStar(require("./module/consul/consul.service"), exports);
 __exportStar(require("./module/microservice/microservice.module"), exports);
+__exportStar(require("./util/bot.service"), exports);
 __exportStar(require("./util/date.service"), exports);
 __exportStar(require("./util/number.service"), exports);
 __exportStar(require("./util/string.service"), exports);

@@ -13,6 +13,7 @@ var PrizeDrawApiEnum;
     PrizeDrawApiEnum["findOneGroup"] = "findOneGroup";
     PrizeDrawApiEnum["updateGroup"] = "updateGroup";
     PrizeDrawApiEnum["removeGroup"] = "removeGroup";
+    PrizeDrawApiEnum["startPriceDraw"] = "startPriceDraw";
 })(PrizeDrawApiEnum || (exports.PrizeDrawApiEnum = PrizeDrawApiEnum = {}));
 var VerifyBotApiEnum;
 (function (VerifyBotApiEnum) {

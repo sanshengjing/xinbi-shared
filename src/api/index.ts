@@ -8,7 +8,9 @@ export enum PrizeDrawApiEnum {
   findAllGroup = 'findAllGroup',
   findOneGroup = 'findOneGroup',
   updateGroup = 'updateGroup',
-  removeGroup = 'removeGroup'
+  removeGroup = 'removeGroup',
+
+  startPriceDraw = 'startPriceDraw', // 开始抽奖
 }
 
 export enum VerifyBotApiEnum {

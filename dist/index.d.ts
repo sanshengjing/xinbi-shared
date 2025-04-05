@@ -4,6 +4,7 @@ export * from './module/redis/redis.service';
 export * from './module/consul/consul.module';
 export * from './module/consul/consul.service';
 export * from './module/microservice/microservice.module';
+export * from './util/bot.service';
 export * from './util/date.service';
 export * from './util/number.service';
 export * from './util/string.service';
