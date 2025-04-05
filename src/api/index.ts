@@ -1,6 +1,7 @@
 export enum PrizeDrawApiEnum {
   createRule = 'createRule',
   findAllRule = 'findAllRule',
+  findPageRule = 'findPageRule',
   findOneRule = 'findOneRule',
   updateRule = 'updateRule',
   removeRule = 'removeRule',

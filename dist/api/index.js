@@ -5,6 +5,7 @@ var PrizeDrawApiEnum;
 (function (PrizeDrawApiEnum) {
     PrizeDrawApiEnum["createRule"] = "createRule";
     PrizeDrawApiEnum["findAllRule"] = "findAllRule";
+    PrizeDrawApiEnum["findPageRule"] = "findPageRule";
     PrizeDrawApiEnum["findOneRule"] = "findOneRule";
     PrizeDrawApiEnum["updateRule"] = "updateRule";
     PrizeDrawApiEnum["removeRule"] = "removeRule";
