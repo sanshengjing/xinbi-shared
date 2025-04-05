@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 export declare class DateService {
-    getCurrentDateStr(): string;
+    getCurrentDateStr(format?: string): string;
     getCurrentYMD(): string;
     getFormatByDate(date: Date, format: string): string;
     getDayjsByDate(date: Date): dayjs.Dayjs;

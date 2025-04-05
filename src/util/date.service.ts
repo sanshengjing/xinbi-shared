@@ -11,8 +11,8 @@ dayjs.tz.setDefault('Asia/Shanghai');
 
 @Injectable()
 export class DateService {
-  getCurrentDateStr() {
-    return dayjs().tz().format('YYYY-MM-DD HH:mm:ss.SSS');
+  getCurrentDateStr(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+    return dayjs().tz().format(format);
   }
 
   // 2023-01-01
